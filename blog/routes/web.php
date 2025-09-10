@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +22,9 @@ Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/home', [BlogController::class, 'index']);
+Route::get('/about', [BlogController::class, 'about']);
+Route::get('/article', [BlogController::class, 'article']);
+Route::get('/contact', [BlogController::class, 'contact']);
+
 
