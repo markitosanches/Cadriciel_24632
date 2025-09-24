@@ -30,7 +30,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create');
     }
 
     /**
@@ -38,7 +38,31 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'title' => 'required|string|max:190',
+            'description' => 'required|string|max:1000',
+            'completed' => 'nullable|boolean',
+            'due_date' => 'nullable|date',
+        ]);
+
+        // redirect()->back()->withErrors(['title' => ['required' => 'message', 'string' => 'message'], 'decription' => []])=>withInputs([]);
+
+        // return $request;
+        // insert into tasks (...) values (?,?,?...);
+        // lastIntedId
+        // select * from id = lastinsrertid
+        // fetch();
+       $task = Task::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'completed' => $request->input('completed', false),
+        'due_date' => $request->due_date,
+        'user_id' => 1
+       ]);
+
+       return redirect()->route('task.show', $task->id)->with('success','Task Created Successfully');
+       // $_SESSION['success'] = 'Task Created Successfully';
     }
 
     /**
@@ -55,7 +79,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return $task;
     }
 
     /**
