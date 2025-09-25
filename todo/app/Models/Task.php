@@ -9,6 +9,11 @@ class Task extends Model
 {
     use HasFactory;
 
+    // protected $table = "myTable";
+    // protected $primaryKey= "id_task";
+    // protected $timestamps = false;
+
+
     protected $fillable = [
         'title',
         'description',
