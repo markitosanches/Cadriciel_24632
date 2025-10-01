@@ -9,7 +9,7 @@
                     <h5 class="card-title">Edit Task</h5>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form  action="{{route('task.edit', $task->id)}}" method="post">
                         @method('put')
                         @csrf
                         <div class="mb-3">

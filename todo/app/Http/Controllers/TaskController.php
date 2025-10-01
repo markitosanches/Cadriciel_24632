@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -22,6 +23,12 @@ class TaskController extends Controller
     //    $task = Task::select()->orderby('title')->first();
     //    return $task;
         $tasks = Task::all();
+
+        //  $tasks = Task::select()
+        //                 ->join('users', 'users.id', 'user_id')
+        //                 ->get();
+
+        // return $tasks[0]->user;
         return view('task.index', ['tasks' => $tasks]);
     }
 
@@ -114,6 +121,11 @@ class TaskController extends Controller
         return redirect()->route('task.index')->withSuccess('Task Deleted Successfully!');
     }
 
+    public function completed($completed){
+        $tasks = Task::where('completed', $completed)->get();
+        return view('task.index', ['tasks' => $tasks]);
+    }
+
     public function query(){
 
         //$stmt = $pdo->query(SELECT * FROM tasks);
@@ -171,7 +183,21 @@ class TaskController extends Controller
         //                 ->rightJoin('users', 'users.id', 'user_id')
         //                 ->get();
 
-        
+        //SELECT MAX(id) FROM tasks;
+        $tasks = Task::max('id');
+
+        //SELECT COUNT(id) FROM tasks;
+        $tasks = Task::count('id');
+
+        //SELECT COUNT(id) FROM tasks where user_id = 1;
+        $tasks = Task::where('user_id', 1)->count('id');
+
+        ///requetes brutes
+        // SELECT COUNT(*) as count_tasks, user_id FROM tasks
+        // GROUP BY user_id;
+        $tasks = Task::select(DB::raw('count(*) as count_tasks'), 'user_id')
+                ->groupBy('user_id')
+                ->get();
         
         return $tasks; 
     }
