@@ -5,18 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+
+        // if(!Auth::check()){
+        //     return redirect(route('login'));
+        // }
         $users = User::select('id','name')->orderby('name')->paginate(5);
 
         //return $users[0]->tasks;
-    //    return $users;
+        //    return $users;
         return view('user.index', ['users' => $users]);
     }
 
@@ -33,7 +43,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6|max:20'
+        ]);
+        $user = new User;
+        $user->fill($request->all());
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+          return redirect(route('user.index'))->withSuccess('User created successfully!');
     }
 
     /**
