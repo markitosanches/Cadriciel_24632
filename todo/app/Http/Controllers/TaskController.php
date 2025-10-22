@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
+
 
 class TaskController extends Controller
 {
@@ -38,7 +40,14 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('task.create');
+        // $category = Category::all();
+       
+        // $categories =  CategoryResource::collection($category)->resolve();
+
+        $categories = Category::categories();
+
+        //return view('task.create', ['categories'=>$categories]);
+        return view('task.create', compact('categories'));
     }
 
     /**
@@ -52,7 +61,10 @@ class TaskController extends Controller
             'description' => 'required|string|max:1000',
             'completed' => 'nullable|boolean',
             'due_date' => 'nullable|date',
-        ]);
+            'category_id' => 'required|exists:categories,id'
+        ],
+        [], //messagw de validation
+        ['category_id' => 'category']);
 
         // redirect()->back()->withErrors(['title' => ['required' => 'message', 'string' => 'message'], 'decription' => []])=>withInput([]);
 
@@ -66,7 +78,8 @@ class TaskController extends Controller
         'description' => $request->description,
         'completed' => $request->input('completed', false),
         'due_date' => $request->due_date,
-        'user_id' => Auth::user()->id
+        'user_id' => Auth::user()->id,
+        'category_id' => $request->category_id
        ]);
 
        return redirect()->route('task.show', $task->id)->with('success','Task Created Successfully');
@@ -87,7 +100,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return view('task.edit', ['task' => $task]);
+        $categories = Category::categories();
+        //return view('task.edit', ['task' => $task, 'categories' => $categories]);
+         return view('task.edit', compact('task', 'categories'));
     }
 
     /**

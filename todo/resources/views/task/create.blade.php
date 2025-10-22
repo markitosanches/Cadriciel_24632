@@ -4,11 +4,11 @@
     <h1>Add Task</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card mb-5">
                 <div class="card-header">
                     <h5 class="card-title">Add New Task</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body ">
                     <form action="{{ route('task.store')}}" method="post">
                         @csrf
                         <div class="mb-3">
@@ -44,6 +44,20 @@
                             @if($errors->has('due_date'))
                                 <div class="text-danger mt-2">
                                     {{$errors->first('due_date')}}
+                                </div>            
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">Category</label>
+                            <select name="category_id" id="category_id" class="form-select">
+                                <option value=""></option>
+                                @foreach($categories as $category)
+                                <option value="{{$category['id']}}"  @if ($category['id'] == old('category_id')) selected @endif>{{$category['category']}}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('category_id'))
+                                <div class="text-danger mt-2">
+                                    {{$errors->first('category_id')}}
                                 </div>            
                             @endif
                         </div>
