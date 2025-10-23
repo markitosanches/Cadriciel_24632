@@ -38,6 +38,7 @@ class AuthController extends Controller
         if(!Auth::validate($credentials)):
             return redirect(route('login'))->withErrors(trans('auth.password'))->withInput();
         endif;
+        
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
         Auth::login($user);
         return redirect()->intended(route('user.index'))->withSuccess('Sined in');

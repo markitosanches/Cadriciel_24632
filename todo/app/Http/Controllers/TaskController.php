@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use Dompdf\Dompdf;
 
 
 class TaskController extends Controller
@@ -141,6 +142,16 @@ class TaskController extends Controller
         $tasks = Task::where('completed', $completed)->get();
         return view('task.index', ['tasks' => $tasks]);
     }
+
+    public function pdf(Task $task)
+    {
+        $pdf = new Dompdf();
+        $pdf->setPaper('letter', 'portrait');
+        $pdf->loadHtml(view('task.show-pdf', ["task" => $task]));
+        $pdf->render();
+        return $pdf->stream('task_'.$task->id.'.pdf');
+    }
+
 
     public function query(){
 

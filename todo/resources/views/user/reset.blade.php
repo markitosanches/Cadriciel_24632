@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Login')
+@section('title', 'Reset Password')
 @section('content')
-    <h1>Login</h1>
+    <h1>Reset Password</h1>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Login</h5>
+                    <h5 class="card-title">Reset Password</h5>
                     @if(!$errors->isEmpty())
                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul>
@@ -18,21 +18,21 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form method="post" class="mb-2">
+                    <form  method="post">
                         @csrf
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Username</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
-                        </div>
+                        @method('put')
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password">
                         </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                         </div>
-                    </form>
-                    <a href="{{route('user.forgot')}}" >Forgot Password</a>            
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Reset Password</button>
+                        </div>
+                    </form>              
                 </div>
             </div>
         </div>
