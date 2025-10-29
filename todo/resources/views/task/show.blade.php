@@ -26,9 +26,11 @@
                   <a href="{{route('task.pdf', $task->id)}}" class="btn btn-sm btn-outline-warning">PDF</a>
      
                 <!-- Button trigger modal -->
+                 @can('delete-task')
                     <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                         Delete
                     </button>
+                  @endcan
                 </div>
             </div>
         </div>

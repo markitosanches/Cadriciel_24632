@@ -8,6 +8,15 @@
         body{
             font-family: Arial, Helvetica, sans-serif
         }
+        img{
+            border: solid;
+            padding: 10px;
+            border-radius: 5px;
+            width: 80px;
+            position: absolute;
+            bottom:10px;
+            right:10px
+        }
     </style>
 </head>
 <body>
@@ -21,5 +30,7 @@
         <li><strong>Category: </strong>{{$task->category ? $task->category->category[app()->getLocale()] ??  $task->category->category['en'] : ''}}</li>
     </ul>
     <hr>
+
+    <img src="data:image/png;base64, {{ base64_encode($qrCode)}}" alt="QR Code">
 </body>
 </html>

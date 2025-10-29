@@ -49,9 +49,13 @@ Route::middleware('auth')->group(function(){
 
 });
 
-Route::get('/users', [UserController::class, 'index'])->name('user.index')->middleware('auth');
-Route::get('/registration', [UserController::class, 'create'])->name('user.create');
-Route::post('/registration', [UserController::class, 'store'])->name('user.store');
+    //Route::get('/registration', [UserController::class, 'create'])->name('user.create')->middleware('can:create-users');
+
+Route::middleware(['role:Admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('user.index')->middleware('auth');
+    Route::get('/registration', [UserController::class, 'create'])->name('user.create');
+    Route::post('/registration', [UserController::class, 'store'])->name('user.store');
+});
 
 Route::get('/password/forgot', [UserController::class, 'forgot'])->name('user.forgot');
 Route::post('/password/forgot', [UserController::class, 'email'])->name('user.email');

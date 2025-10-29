@@ -41,6 +41,8 @@ class AuthController extends Controller
         
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
         Auth::login($user);
+        Auth::user()->roles()->detach();
+        $user->assignRole($user->role);
         return redirect()->intended(route('user.index'))->withSuccess('Sined in');
 
     }
